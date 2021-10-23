@@ -127,6 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
             queueSVG.style.display = "inline-block";
             skipBtn.disabled = true;
             stopBtn.disabled = true;
+            isStop = true;
+            setStop();
 
             const done = () => {
                 clearInterval(interval);
@@ -138,6 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 skipText.textContent = 'False';
                 skipText.style.backgroundColor = 'red';
                 skipBtn.disabled = false;
+                isStop = false;
+                setStop();
                 clearInterval(intervalShow);
                 resolve(true);
             }
