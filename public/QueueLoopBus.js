@@ -204,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!isLoop) {
                     if (counter === 360) {
                         clearInterval(interval);
+                        startBtn.disabled = false;
                     }
                 }
 
