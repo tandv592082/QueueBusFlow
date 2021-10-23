@@ -184,13 +184,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (indexOflocation && isInit) {
                     nextIndex++;
-                    if (nextIndex === LENGTH && !roundOneDone) {
+                    if (nextIndex === LENGTH + 1 && !roundOneDone) {
                         nextIndex = 0;
                         roundOneDone = true;
                     }
 
                     if(roundOneDone) {
-                        if(nextIndex === LENGTH - 1) {
+                        if(nextIndex === LENGTH) {
                             nextIndex = 0;
                         }
                     }
