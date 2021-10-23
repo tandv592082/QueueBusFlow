@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+  </head>
+
+  <body>
+      <h1>Queue Bus Flow</h1>
+      <div class="explain">
+          <p>Đi lặp lại sau khi đến bến A: <span id="loop-bus" class="true">true</span></p>
+          <p>Bến tiếp theo: <span class="skip-bus false">false</span></p>
+          <p>Xe đã dừng?: <span class="stop-bus false">false</span></p>
+          <p>Kí hiệu bến tiếp: <span class="next-location"></span></p>
+          <p>Bến hiện tại: <span class="current-location"></span></p>
+      </div>
+      <div class="circle-bus">
+        <svg height="200" width="200">
+            <circle cx="100" cy="100" r="97" stroke="gray" stroke-width="3" fill="transparent" />
+          </svg>
+          <span class="bus"></span>
+          <span class="next"></span>
+      </div>
+    <p class="message">
+        Xe đang đến bến: <span class="location">Bến 1</span>
+    </p>
+    <p class="bus-queue">Xe đang dừng lại, tự động đi trong <span class="timmer"></span>s</p>
+    
+    <svg class="queueSVG"
+     width="16" height="16">
+        <circle class="bg" 
+                cx="8" cy="8" r="6"
+                fill="none"
+                stroke="#F5F6FB"   
+                stroke-width="4"
+                stroke-dasharray="500"
+         />
+        <circle id="my-circle" class="fill" 
+                cx="8" cy="8" r="6"
+                fill="none"
+                stroke="#f00"   
+                stroke-width="3"
+                stroke-dasharray="40"
+         />
+        
+        <animate 
+          xlink:href="#my-circle"
+          attributeName="stroke-dashoffset"
+          from="40"
+          to="0" 
+          dur="4s"
+          repeatCount="indefinite"
+          />
+    </svg>
+    <div class="btn-controller">
+        <button id="start">Start Bus</button>
+        <button id="skip" disabled>Bỏ bến B</button>
+        <button id="stop" disabled>Dừng</button>
+        <div style="display: flex; justify-content: center; align-items: center">
+            <input id="gohome" class="toggle" type="checkbox" checked/> <span>Lặp khi quay lại A</span>
+        </div>
+    </div>
+  </body>
+  <script src="./QueueLoopBus.js"></script>
+</html>
