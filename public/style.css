@@ -72,6 +72,17 @@ button:not(:nth-child(1)) {
     transition: all 0.3s;
 }
 
+.bus-queue {
+    display: none;
+    position: absolute !important;
+    left: 50% !important;
+    top: calc(50% - 16px) !important;
+    text-align: center !important;
+    transform: translate(-50%, -50%) !important;
+    font-weight: bold !important;
+    font-size: 18px;
+}
+
 .bus {
     background-color: transparent !important;
     height: 20px;
@@ -85,14 +96,7 @@ button:not(:nth-child(1)) {
 }
 
 
-.bus-queue {
-    display: none;
-    position: fixed !important;
-    left: calc(50% + 280px);
-    transform: translateX(-50%) !important;
-    font-weight: bold !important;
-    font-size: 18px;
-}
+
 
 .queueSVG {
     display: none !important;
