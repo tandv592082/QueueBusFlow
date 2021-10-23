@@ -184,14 +184,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (indexOflocation && isInit) {
                     nextIndex++;
-                    if (nextIndex === LENGTH) {
+                    if (nextIndex === LENGTH && !roundOneDone) {
                         nextIndex = 0;
                         roundOneDone = true;
                     }
 
-                    if(nextIndex === LENGTH - 1 && roundOneDone) {
-                        nextIndex = 0;
-                        roundOneDone = false;
+                    if(roundOneDone) {
+                        if(nextIndex === LENGTH - 1) {
+                            nextIndex = 0;
+                        }
                     }
 
                     showNextPosition(LOCATIONS[nextIndex]);
