@@ -126,16 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
             busQueue.style.display = "inline-block";
             queueSVG.style.display = "inline-block";
             skipBtn.disabled = true;
-            stopBtn.disabled = true;
-            isStop = true;
+            stopBtn.disabled = false;
+            isStop = false;
             setStop();
 
             const done = () => {
                 clearInterval(interval);
-                busQueue.style.display = "none";
+                busQueue.style.display = "none"
                 queueSVG.style.display = "none";
                 startBtn.disabled = false;
-                stopBtn.disabled = false;
                 startBtn.click();
                 skipText.textContent = 'False';
                 skipText.style.backgroundColor = 'red';
@@ -271,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
         startBtn.disabled = false;
         setStop();
         clearInterval(interval);
+        clearInterval(intervalShow);
     };
 
     //clear interval before page reload;
