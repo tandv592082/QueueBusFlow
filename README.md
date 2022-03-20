@@ -1,3 +1,3 @@
 # QueueBusFlow
 
-[Demo](https://bus-flow.herokuapp.com/)
+[Demo](https://busflow.herokuapp.com/)
