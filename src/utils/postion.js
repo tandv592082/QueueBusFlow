@@ -34,7 +34,7 @@ const checkQuandrantAngle = (degree) => {
   return quandrant > 4 ? 1 : quandrant;
 };
 
-const getPositionFromQuandrantAndRadius = (degree, radius) => {
+export const getPositionFromQuandrantAndRadius = (degree, radius) => {
   const quandrant = checkQuandrantAngle(degree);
   const radian = degreeToRadian(degree % 90);
   const position = { quandrant };
