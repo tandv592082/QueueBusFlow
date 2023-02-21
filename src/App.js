@@ -164,7 +164,7 @@ function App() {
             }
           >
             {isIgnoreWaitInNextLocation
-              ? `Đã bỏ chờ tại bến ${positions[currentIndex].title}`
+              ? `Đã bỏ chờ tại bến tiếp theo`
               : `Đã chờ ${BUS_STOP_TIMEOUT}ms tại bến ${positions[currentIndex].title}`}
           </button>
         </div>
