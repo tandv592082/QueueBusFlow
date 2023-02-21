@@ -93,7 +93,7 @@ function App() {
             : isPause
             ? `Bus đang tạm dừng`
             : isStop
-            ? `Xe đang chờ tại bến ${positions[currentIndex].title}`
+            ? `Xe đang chờ tại bến ${positions[currentIndex].title}, đi tiếp sau ${BUS_STOP_TIMEOUT}ms`
             : `Đang tới bến ${positions[currentIndex].title}`}
         </p>
         <svg width={SVG_WIDTH} height={SVG_WIDTH}>
