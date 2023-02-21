@@ -41,20 +41,20 @@ export const getPositionFromQuandrantAndRadius = (degree, radius) => {
 
   switch (quandrant) {
     case 1:
-      position.x = radius + Math.sin(radian) * radius;
-      position.y = radius + Math.cos(radian) * radius;
+      position.x = radius + 20 + Math.sin(radian) * radius;
+      position.y = radius + 20 + Math.cos(radian) * radius;
       break;
     case 2:
-      position.x = radius + Math.cos(radian) * radius;
-      position.y = radius - Math.sin(radian) * radius;
+      position.x = radius + 20 + Math.cos(radian) * radius;
+      position.y = radius + 20 - Math.sin(radian) * radius;
       break;
     case 3:
-      position.x = radius - Math.sin(radian) * radius;
-      position.y = radius - Math.cos(radian) * radius;
+      position.x = radius + 20 - Math.sin(radian) * radius;
+      position.y = radius + 20 - Math.cos(radian) * radius;
       break;
     case 4:
-      position.x = radius - Math.cos(radian) * radius;
-      position.y = radius + Math.sin(radian) * radius;
+      position.x = radius + 20 - Math.cos(radian) * radius;
+      position.y = radius + 20 + Math.sin(radian) * radius;
       break;
     default:
       break;
