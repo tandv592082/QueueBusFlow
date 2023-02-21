@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import {
   DEFAULT_LOCATIONS_LIST,
@@ -16,64 +16,78 @@ const positions = generateLocationPostions(
 );
 
 function App() {
-  const [currPosition, setCurrPosition] = useState(positions[0]);
-  const [pause, setPause] = useState(false);
-  const [stop, setStop] = useState(false);
-  const [ignoreLocation, setIgnoreLocation] = useState(false);
-  const [start, setStart] = useState(false);
+  const [currentPosition, setCurrentPostition] = useState(positions[0]);
+  const [isPause, setIsPause] = useState(false);
+  const [isStop, setIsStop] = useState(false);
+  const [isIgnoreWaitInNextLocation, setIsIgnoreWaitInNextLocation] =
+    useState(false);
+  const [isBusStarted, setIsBusStarted] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-
-  const currDegree = useRef(0);
-  const timerRun = useRef(null);
-  const timerWait = useRef(null);
+  const degree = useRef(0); // start at o degree
+  const timerRunId = useRef(null);
+  const timerWaitId = useRef(null);
 
   useEffect(() => {
-    if (!start) {
-      currDegree.current = 0;
-      setCurrPosition((prev) => ({ prev, ...positions[0] }));
+    if (!isBusStarted) {
+      if (isBusStarted !== undefined) {
+        degree.current = 0;
+        setCurrentPostition((prev) => ({ ...prev, ...positions[0] }));
+        setCurrentIndex(0);
+      }
     } else {
-      if (pause || stop) {
-        clearInterval(timerRun.current);
+      if (isPause || isStop) {
+        console.log("Bus is pause or stop!");
+        //clear timer run
+        clearInterval(timerRunId.current);
       } else {
-        timerRun.current = setInterval(() => {
-
-          const isBusMatchingLocation =  positions.some((pos) => {
-            return pos.x === currPosition.x && pos.y === currPosition.y;
-          })
-
-          if (isBusMatchingLocation && !ignoreLocation) {
-            setStop(true);
-
-            timerWait.current = setTimeout(() => {
-              setStop(false);
-            }, BUS_STOP_TIMEOUT);
-          }
-
-          currDegree.current++;
-          const currentPos = getPositionFromQuandrantAndRadius(
-            currDegree.current % 360,
+        timerRunId.current = setInterval(() => {
+          const position = getPositionFromQuandrantAndRadius(
+            degree.current % 360,
             CIRCLE_RADIUS
           );
-          setCurrPosition((prev) => ({ ...prev, ...currentPos }));
+
+          let index = positions.findIndex((pos) => {
+            return pos.x === position.x && pos.y === position.y;
+          });
+
+          degree.current++;
+
+          if (index >= 0) {
+            index = (index + 1) % 10;
+            if (isIgnoreWaitInNextLocation) {
+              clearTimeout(timerWaitId.current);
+              setCurrentIndex(prev => (prev + 1) %  DEFAULT_LOCATIONS_LIST.length);
+              setIsIgnoreWaitInNextLocation(false);
+            } else {
+              setIsStop(true);
+              
+              timerWaitId.current = setTimeout(() => {
+                setCurrentIndex(prev => (prev + 1) %  DEFAULT_LOCATIONS_LIST.length);
+                setIsStop(false);
+              }, BUS_STOP_TIMEOUT);
+            }
+          } else {
+            setCurrentPostition((prev) => ({ ...prev, ...position }));
+          }
         }, 100);
       }
     }
 
-    return () => {
-      clearInterval(timerRun.current);
-    };
+    return () => clearInterval(timerRunId.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pause, stop, ignoreLocation, start]);
+  }, [isPause, isStop, isIgnoreWaitInNextLocation, isBusStarted]);
 
   return (
     <div className="App">
       <header className="App-header">
         <p>
-          {!start
+          {!isBusStarted
             ? "Đợi tín hiệu để bắt đầu khởi hành"
-            : pause
-            ? "Bus đang tạm dừng!"
+            : isPause
+            ? `Bus đang tạm dừng`
+            : isStop
+            ? `Xe đang chờ tại bến ${positions[currentIndex].title}`
             : `Đang tới bến ${positions[currentIndex].title}`}
         </p>
         <svg width={CIRCLE_RADIUS * 2} height={CIRCLE_RADIUS * 2}>
@@ -82,15 +96,15 @@ function App() {
             cy={CIRCLE_RADIUS}
             r={CIRCLE_RADIUS}
             fill="none"
-            stroke="red"
+            stroke="white"
             strokeWidth="2"
           />
           <g>
             <circle
-              cx={currPosition.x}
-              cy={currPosition.y}
+              cx={currentPosition.x}
+              cy={currentPosition.y}
               r="10"
-              fill="black"
+              fill="red"
             ></circle>
             {positions.map((position, index) => (
               <circle
@@ -98,25 +112,29 @@ function App() {
                 title={position.title}
                 cx={position.x}
                 cy={position.y}
-                r="10"
-                fill="black"
+                r="4"
+                fill="white"
               ></circle>
             ))}
           </g>
         </svg>
         <div>
-          <button onClick={() => setStart(!start)}>
-            {start ? "Reset" : "Khởi hành"}
+          <button onClick={() => setIsBusStarted(!isBusStarted)}>
+            {isBusStarted ? "Reset" : "Khởi hành"}
           </button>
 
-          <button onClick={() => setPause(!pause)}>
-            {pause ? "Tiếp tục" : "Tạm dừng"}
+          <button onClick={() => setIsPause(!isPause)}>
+            {isPause ? "Tiếp tục" : "Tạm dừng"}
           </button>
 
-          <button onClick={() => setIgnoreLocation(!ignoreLocation)}>
-            {ignoreLocation
-              ? "Bỏ chờ tại bến"
-              : `Chờ ${BUS_STOP_TIMEOUT}ms tại bến ${positions[currentIndex].title}`}
+          <button
+            onClick={() =>
+              setIsIgnoreWaitInNextLocation(!isIgnoreWaitInNextLocation)
+            }
+          >
+            {isIgnoreWaitInNextLocation
+              ? `Đã bỏ chờ tại bến ${positions[currentIndex].title}`
+              : `Đã chờ ${BUS_STOP_TIMEOUT}ms tại bến ${positions[currentIndex].title}`}
           </button>
         </div>
       </header>

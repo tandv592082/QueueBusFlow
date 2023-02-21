@@ -17,7 +17,7 @@ export const generateLocationPostions = (locations = [], R = 0) => {
   let currDegree = 0;
 
   for (let i = 0; i < length; i++) {
-    currDegree += avgDegree;
+    currDegree = i*avgDegree;
 
     positions.push({
       ...getPositionFromQuandrantAndRadius(currDegree, R),
